@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    We are using node <script>document.write(process.versions.node)</script>,
+    Chrome <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+
+    Here's some serial data:
+    <pre>
+    <script>
+    "use strict";
+
+    var serialportName = "/dev/cu.usbmodem1411";
+
+    var remote = window.require('remote');
+    var serialport = remote.require("serialport");
+    var SerialPort = serialport.SerialPort;
+
+    var port = new SerialPort(serialportName, {
+        baudrate: 19200,
+        parser: serialport.parsers.readline("\r\n")
+    });
+
+    port.on("open", function () {
+        port.on('data', function(data) {
+            //var value = parseInt(data.toString());
+            console.log(data);
+            document.write(data);
+        });
+    });
+
+    </script>
+    </pre>
+  </body>
+</html>
